@@ -31,7 +31,7 @@ class HomePage extends React.Component{
       }
 
       fetchUrls(){
-        console.log(cookie.load('token') )
+          
         axios.get(`${global.config.apiPath}/api/url`,
          { headers: { Authorization: `Bearer ${cookie.load('token')}` } })
         .then(response => {
@@ -144,13 +144,27 @@ class HomePage extends React.Component{
                 {
                     this.state.urls.map(
                         (url) =>
-                        <ListItem>
-                            <Grid item xs={12}>
-                                <a href={`/user/url/${url.id}`} onClick={preventDefault}>
-                                    <ListItemText primary={url.url} />
-                                </a>
+                        <ListItem key={url.id}>
+                            <Grid item xs={3}>
+                                <ListItemText primary={url.url} />
+                                
                             </Grid>
-                            <Grid item xs="12">
+
+                            <Grid item xs={3} >
+                                <Button variant="contained" color="primary"
+                                 href={`/user/ping/${url.id}`}>
+                                    Ping
+                                </Button>
+                            </Grid>
+                            <Grid item xs={3}>    
+                                <Button variant="contained" color="secondary"
+                                 href={`/user/logs/${url.id}`}>
+                                    Logs
+                                </Button>
+
+                            </Grid>
+
+                            <Grid item xs={3}>
                                 <ListItemText primary={`Response time (ms): ${url.responseTime}`}/>
                             </Grid>
                             
