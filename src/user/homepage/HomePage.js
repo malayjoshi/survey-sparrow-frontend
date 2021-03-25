@@ -11,7 +11,8 @@ import axios from 'axios';
 import config from '../../config';
 import { Redirect } from "react-router-dom";
 import cookie from 'react-cookies';
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 class HomePage extends React.Component{
 
     constructor(props){
@@ -25,6 +26,8 @@ class HomePage extends React.Component{
         };
         this.handleInputChange = this.handleInputChange.bind(this);  
         this.handleSubmit = this.handleSubmit.bind(this); 
+        this.handleDelete=this.handleDelete.bind(this);
+        
         this.fetchUrls();
         
 
@@ -89,9 +92,33 @@ class HomePage extends React.Component{
     
       }
 
-    render(){
+      handleDelete(event,id){
 
-        const preventDefault = (event) => event.preventDefault();
+        event.preventDefault();
+
+        axios.post(`${global.config.apiPath}/api/url/delete/${id}`,
+        {},
+        { headers: { Authorization: `Bearer ${cookie.load('token')}` } })
+       .then(response => {
+           //console.log(res.status);
+           if(response.status===200) //authorized
+           {
+           //show success message
+           this.fetchUrls();
+           }
+
+           
+
+       }, (error) => {
+           //logged out
+           this.setState({redirect:'/logout'});
+       }
+       );
+
+
+      }
+
+    render(){
 
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
@@ -165,7 +192,14 @@ class HomePage extends React.Component{
                             </Grid>
 
                             <Grid item xs={3}>
+                                <Grid item xs={6} md={12}>
                                 <ListItemText primary={`Response time (ms): ${url.responseTime}`}/>
+                                </Grid>
+                                <Grid item xs={6} md={12}>
+                                    <IconButton onClick={(event) => {this.handleDelete(event,url.id)} }> 
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                </Grid>
                             </Grid>
                             
                         </ListItem>

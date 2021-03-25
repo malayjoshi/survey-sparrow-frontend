@@ -11,6 +11,7 @@ import axios from 'axios';
 import config from '../../config';
 import { Redirect, useParams } from "react-router-dom";
 import cookie from 'react-cookies';
+import dateFormat from 'dateformat';
 
 export default function PingPage(){
     let {id}=useParams();
@@ -54,8 +55,12 @@ export default function PingPage(){
                if(response.status===200) //authorized
                {
                    let obj={ind:ind, 
-                       withinResponseTime:response.data.withinResponseTime};
-                   
+                       withinResponseTime:response.data.withinResponseTime,
+                        time: `${dateFormat(`${response.data.time}`, "d-mm-yyyy, h:MM:ss TT")}` 
+                    };
+                    
+                    
+
                    logs.push(obj);
                    
                    setLogs(logs);
@@ -115,11 +120,11 @@ export default function PingPage(){
                     
                 </Grid>
                 <Grid item xs={12} style={{textAlign:"center"}}>
-                    <Alert severity="info">The pings will happen for a interval of 5 mins automatically</Alert>
+                    <Alert severity="info">The pings will happen for a interval of 5 mins automatically and only failure cases will be shown.</Alert>
                 </Grid>
             </Grid>
 
-            <Grid container spacing={3} style={{ textAlign:"center",marginTop:"30px"} }>
+            <Grid container justify="center" spacing={3} style={{ textAlign:"center",marginTop:"30px"} }>
                 <List component="nav">
 
                     {
@@ -127,12 +132,13 @@ export default function PingPage(){
                             (log) => 
                             <ListItem key={log.ind} style={{textAlign:"center"}}>
 
-                                <Grid item lg={12} md={12} sm={12}>
+                                <Grid item xs={12} justify="center">
                                     {
                                         !log.withinResponseTime &&
                                         <Alert variant="outlined" severity="error">
                                             <Typography variant="subtitle1" gutterBottom>
-                                            Your website took more than {url.responseTime}ms to respond.    
+                                            Your website took more than {url.responseTime}ms to respond.
+                                            Time-stamp: {log.time}    
                                             </Typography>
                                         
                                         </Alert>
