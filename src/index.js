@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter as Router,Switch, Redirect} from 'react-router-dom';  
 import login from './login/login'  ;
@@ -11,7 +10,7 @@ import Logout from './logout/logout';
 
 function PrivateRoutes(props){
 
-  if(cookie.load('username')!=undefined && cookie.load('token')!=undefined)
+  if(cookie.load('username')!==undefined && cookie.load('token')!==undefined)
     return(
       <Switch>
         <Route path="/user" component={UserIndex} />

@@ -1,9 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { Grid, TextField,MenuItem, Container,Card,CardContent,Typography } from '@material-ui/core';
+import { Grid, TextField, Container,Card,CardContent,Typography } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
-import config from '../config';
 import { Redirect } from "react-router-dom";
 import cookie from 'react-cookies';
 

@@ -1,11 +1,13 @@
 import React, { useState ,useEffect} from 'react';
-import Button from '@material-ui/core/Button';
-import { Grid, TextField,MenuItem, Container,Card,CardContent,Typography
+import { Grid,Typography
 } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import config from '../../config';
@@ -120,37 +122,48 @@ export default function PingPage(){
                     
                 </Grid>
                 <Grid item xs={12} style={{textAlign:"center"}}>
-                    <Alert severity="info">The pings will happen for a interval of 5 mins automatically and only failure cases will be shown.</Alert>
+                    <Alert severity="info">The pings will happen for a interval of 5 mins automatically and only failure cases will be saved.</Alert>
                 </Grid>
             </Grid>
 
             <Grid container justify="center" spacing={3} style={{ textAlign:"center",marginTop:"30px"} }>
-                <List component="nav">
+                
+            <TableContainer component={Paper}>
+                <Table  aria-label="simple table">
+                    <TableHead>
+                    <TableRow>
+                        <TableCell><b>Message</b></TableCell>
+                        <TableCell ><b>Time-stamp</b></TableCell>
+                        
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
 
                     {
                         logs.map(
                             (log) => 
-                            <ListItem key={log.ind} style={{textAlign:"center"}}>
 
-                                <Grid item xs={12} justify="center">
-                                    {
-                                        !log.withinResponseTime &&
-                                        <Alert variant="outlined" severity="error">
-                                            <Typography variant="subtitle1" gutterBottom>
-                                            Your website took more than {url.responseTime}ms to respond.
-                                            Time-stamp: {log.time}    
-                                            </Typography>
-                                        
-                                        </Alert>
-                                    }
+                                <TableRow key={log.time}>
+                                    <TableCell component="th" scope="row">
+                                        {!log.withinResponseTime && `Website took more than ${url.responseTime}ms to respond.`}
+                                        { log.withinResponseTime && `Took less than ${url.responseTime}ms to respond.` }
+                                    </TableCell>
+                                <TableCell >
+                                {log.time}
+                                </TableCell>
+                                </TableRow>
                                     
-                                </Grid> 
-                            </ListItem>
-                            
+                                
+                                
+
                         )
                     }
+
+                    </TableBody>
+                </Table>
+                </TableContainer>
+                    
                 
-                    </List>
             </Grid>
 
         </div>

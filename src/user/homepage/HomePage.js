@@ -1,14 +1,12 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { Grid, TextField,MenuItem, Container,Card,CardContent,Typography
+import { Grid, TextField, Container
 } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Alert from '@material-ui/lab/Alert';
 import axios from 'axios';
-import config from '../../config';
 import { Redirect } from "react-router-dom";
 import cookie from 'react-cookies';
 import DeleteIcon from '@material-ui/icons/Delete';
